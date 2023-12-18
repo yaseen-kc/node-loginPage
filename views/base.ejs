@@ -1,5 +1,23 @@
 <%-include('header')-%>
 
-    <h2>Login System</h2>
+    <div class="text-center center-div" id="login">
+        <div class="container w-24 border py-5">
+            <div class="title pb-5">
+                <h2 class="font-weight-bold">Login System</h2>
+                <span>Login in for the existing user</span>
+            </div>
+            <form action="/route/login" method="POST">
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email" name="email">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="password">
+                </div>
+                <button type="submit" class="btn btn-success rounded-pill">Submit</button>
+                <small class="form-text text-muted text-left">Register Email Address</small>
+            </form>
+        </div>
+    </div>
+
 
     <%-include('footer')-%>
