@@ -1,13 +1,39 @@
-<%-include('header')-%>
+<%- include('header') -%>
 
-<div class="text-center center-div">
-    <div class="dashboard-container">
-        <div class="welcome-message" style="font-size: 50px;">Welcome to Express Dashboard</div>
-        <div class="user-info" style="font-size: 30px;">
-            <%= locals.user ? user : "user" %>
+    <div class="text-center center-div">
+        <div class="dashboard-container">
+            <div class="welcome-message" style="font-size: 50px;">Welcome to Express Dashboard</div>
+            <div class="user-info" style="font-size: 30px;">
+                <%= locals.user ? user : "user" %>
+            </div>
+            <form action="/route/logout" method="POST" id="logoutForm">
+                <button type="submit" class="btn btn-danger rounded-pill">Sign Out</button>
+            </form>
         </div>
-        <a href="/route/logout" class="logout-btn">Logout</a>
     </div>
-</div>
 
-    <%-include('footer')-%>
+    <%- include('footer') -%>
+
+        <script>
+            // Disable browser back button
+            history.pushState(null, null, window.location.href);
+            window.onpopstate = function () {
+                history.go(1);
+            };
+
+            // Use JavaScript to handle form submission on button click
+            document.getElementById('logoutForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+                fetch('/route/logout', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Redirect to the login page after successful logout
+                            window.location.href = '/';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        </script>
