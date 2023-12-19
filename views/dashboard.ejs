@@ -1,4 +1,4 @@
-<%-include('header')-%>
+<%- include('header') -%>
 
     <div class="text-center center-div">
         <div class="dashboard-container">
@@ -12,9 +12,15 @@
         </div>
     </div>
 
-    <%-include('footer')-%>
+    <%- include('footer') -%>
 
         <script>
+            // Disable browser back button
+            history.pushState(null, null, window.location.href);
+            window.onpopstate = function () {
+                history.go(1);
+            };
+
             // Use JavaScript to handle form submission on button click
             document.getElementById('logoutForm').addEventListener('submit', function (event) {
                 event.preventDefault(); // Prevent default form submission
