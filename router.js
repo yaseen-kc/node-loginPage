@@ -2,16 +2,16 @@ const express = require('express');
 const router = express.Router();
 
 const credential = {
-    email: 'admin@gmail.com',
-    password: 'admin123'
+    username: 'admin', // Change this to your predefined username
+    password: 'admin123' // Change this to your predefined password
 };
 
 router.post('/login', (req, res) => {
-    if (req.body.email == credential.email && req.body.password == credential.password) {
-        req.session.user = req.body.email;
+    if (req.body.username == credential.username && req.body.password == credential.password) {
+        req.session.user = req.body.username;
         res.redirect('/route/dashboard');
     } else {
-        res.end('Invalid Credentials');
+        res.render('base', { title: 'Login System', error: 'Incorrect username or password' });
     }
 });
 
@@ -19,20 +19,17 @@ router.get('/dashboard', (req, res) => {
     if (req.session.user) {
         res.render('dashboard', { user: req.session.user });
     } else {
-        res.send('Unauthorized User');
+        res.redirect('/');
     }
 });
 
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     req.session.destroy(function (err) {
         if (err) {
             console.log(err);
-            res.send('Error');
+            res.json({ success: false, message: 'Error during logout' });
         } else {
-            // Redirect to the login page after logout
-            res.redirect('/');
-            // res.render('base', { title: "Express", logout: "Logout Successfully" })
-
+            res.json({ success: true, message: 'Logout Successfully' });
         }
     });
 });
