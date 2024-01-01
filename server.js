@@ -1,17 +1,19 @@
 const express = require('express');
 const path = require('path');
-const bodyparser = require('body-parser');
+// const bodyparser = require('body-parser');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
+const nocache = require("nocache");
+const flash = require("express-flash");
 
 const router = require('./router');
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
@@ -20,6 +22,24 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+
+//implementing middleware
+
+app.use(session({
+    secret: uuidv4(),
+    resave: false,
+    saveUninitialized: true
+}));
+
+
+app.use(nocache()); ``
+app.use(flash());
+
+//middleware express
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Define routes
 app.use('/route', router);
