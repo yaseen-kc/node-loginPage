@@ -15,11 +15,14 @@
     <%- include('footer') -%>
 
         <script>
-            // Block 1: Disable browser back button
+            // Block 1: Disable browser back button by manipulating history state
             history.pushState(null, null, window.location.href);
+            // Block 1.1: Handle the popstate event to prevent going back in history
             window.onpopstate = function () {
+                // Block 1.1.1: Move forward in the history to maintain the current state
                 history.go(1);
             };
+
 
             // Block 2: Use JavaScript to handle form submission on button click
             document.getElementById('logoutForm').addEventListener('submit', function (event) {
