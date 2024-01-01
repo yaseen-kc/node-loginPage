@@ -15,25 +15,31 @@
     <%- include('footer') -%>
 
         <script>
-            // Disable browser back button
+            // Block 1: Disable browser back button
             history.pushState(null, null, window.location.href);
             window.onpopstate = function () {
                 history.go(1);
             };
 
-            // Use JavaScript to handle form submission on button click
+            // Block 2: Use JavaScript to handle form submission on button click
             document.getElementById('logoutForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent default form submission
+                // Block 2.1: Prevent default form submission
+                event.preventDefault();
+
+                // Block 2.2: Fetch API to perform logout
                 fetch('/route/logout', { method: 'POST' })
                     .then(response => response.json())
                     .then(data => {
+                        // Block 2.3: Check if logout was successful
                         if (data.success) {
-                            // Redirect to the login page after successful logout
+                            // Block 2.4: Redirect to the login page after successful logout
                             window.location.href = '/';
                         }
                     })
                     .catch(error => {
+                        // Block 2.5: Handle errors during logout
                         console.error('Error:', error);
                     });
             });
+
         </script>
